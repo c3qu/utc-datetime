@@ -1,0 +1,13 @@
+[package]
+name = "utc-datetime"
+version = "0.1.7"
+authors = ["tantalum73 <c3qu@qq.com>"]
+edition = "2018"
+license = "MIT"
+description = "Return timestamp of UTC datetime,Convert time string to UTC datetime"
+readme = "README.md"
+
+keywords = ["datetime"]
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
