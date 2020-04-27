@@ -13,6 +13,13 @@ pub struct UTCDatetime{
     second:u8,
 }
 
+impl fmt::Display for UTCDatetime{
+    fn fmt(&self,f: &mut fmt::Formatter)->fmt::Result{
+        // 指定宽度输入数字
+        write!(f,"{}-{:02}-{:02} {:02}:{:02}:{:02}",self.year,self.month,self.day,self.hour,self.minute,self.second)
+    }
+}
+
 // 自定义一个错误类型
 #[derive(Debug, Clone)]
 pub enum IllegalTimeError{
@@ -39,7 +46,6 @@ impl fmt::Display for IllegalTimeError {
         }
     }
 }
-
 
 impl UTCDatetime{
     /// Create a new UTCDatetimr structure
@@ -133,12 +139,7 @@ impl UTCDatetime{
         UTCDatetime::new(year,month,day,hour,minute,second)
     }
 }
-impl fmt::Display for UTCDatetime{
-    fn fmt(&self,f: &mut fmt::Formatter)->fmt::Result{
-        // 指定宽度输入数字
-        write!(f,"{}-{:02}-{:02} {:02}:{:02}:{:02}",self.year,self.month,self.day,self.hour,self.minute,self.second)
-    }
-}
+
 
 fn is_leap_year(year:u16)->bool{
     if (year%4==0 && year%100!=0)||year%400==0{
