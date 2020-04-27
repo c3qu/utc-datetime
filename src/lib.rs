@@ -118,7 +118,8 @@ impl UTCDatetime{
     }
     // 输入一个时间字符串(如"2002-04-01 00:00:01") 返回一个时间对象
     /// Convert a string containing time to UTCDatetime.
-    /// Only accept strings in the following format: "2020-12-31 23:59:59"
+    /// Time strings must be sorted by year, month, day, hour, minute, and second,and the separators can be '-', '/', '', and ':'.
+    /// Parsable string example:"2020-12-31 23:59:59","2020\12-31 23 59:59".
     /// # Example
     /// ```
     /// use utc_datetime::UTCDatetime;
@@ -126,7 +127,7 @@ impl UTCDatetime{
     /// assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
-        let time_string_array:Vec<&str>=time_str.split(|x|(x=='-' || x==':' ||x==' ')).collect();
+        let time_string_array:Vec<&str>=time_str.split(|x|(x=='-' || x==':' ||x==' '||x=='/')).collect();
         if time_string_array.len()!=6{
             return Err(IllegalTimeError::TimeStringError)
         }   
@@ -174,7 +175,7 @@ mod tests{
         // println!("{}",a_time);
         // println!("{}",a_time.get_timestamp()?);
         // println!("{}",a_time.day_of_the_week());
-        let a_utc_datetime=UTCDatetime::from_string("2020-12-31 23:59:59").unwrap();
+        let a_utc_datetime=UTCDatetime::from_string("2020/12-31 23 59:59").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     }
 }
