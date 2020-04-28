@@ -7,6 +7,7 @@ license = "MIT"
 description = "Return timestamp of UTC datetime,Convert time string to UTC datetime"
 readme = "README.md"
 documentation="https://docs.rs/utc-datetime"
+repository = "https://github.com/c3qu/utc-datetime"
 
 keywords = ["datetime"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -171,14 +171,14 @@ mod tests{
     use super::UTCDatetime;
     #[test]
     fn mytest() {
-        // assert_eq!(1,1);
-        // let a_time= UTCDatetime::new(2019, 1, 1, 1, 1, 0)?;
-        // let another_time = UTCDatetime::new(2019,1,1,1,1,0)?;
-        // println!("{}",a_time>=another_time);
-        // println!("{}",a_time);
-        // println!("{}",a_time.get_timestamp()?);
-        // println!("{}",a_time.day_of_the_week());
         let a_utc_datetime=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
+    }
+
+    #[test]
+    fn test2(){
+        let a=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap(); 
+        let b=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();   
+        assert_eq!(a<b,false);
     }
 }

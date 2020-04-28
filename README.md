@@ -8,4 +8,4 @@ impl UTCDatetime{
 }
 ```
 The UTCDatetime structure derives PartialEq and PartialOrd,
-you can directly use <,>, ==, <=,> = for comparison.
+you can directly use <,>, ==, <=,>=,!= for comparison.
