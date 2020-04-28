@@ -126,11 +126,12 @@ impl UTCDatetime{
     /// # Example
     /// ```
     /// use utc_datetime::UTCDatetime;
-    /// let a_utc_datetime=UTCDatetime::from_string("2020-12-31 23:59:59").unwrap();
+    /// let a_utc_datetime=UTCDatetime::from_string("时间:2020年12月31日23点59分59秒").unwrap();
     /// assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
-        let time_string_array:Vec<&str>=time_str.split(|x| (x as u8) < 48 || x as u8  >57).collect();
+        let mut time_string_array:Vec<&str>=time_str.split(|x| (x as u8) < 48 || x as u8  >57).collect();
+        time_string_array.retain(|&x|x.len()!=0);
         if time_string_array.len()!=6{
             return Err(IllegalTimeError::TimeStringError)
         }   
@@ -171,7 +172,7 @@ mod tests{
     use super::UTCDatetime;
     #[test]
     fn mytest() {
-        let a_utc_datetime=UTCDatetime::from_string("2020年12月31日23 59 59").unwrap();
+        let a_utc_datetime=UTCDatetime::from_string("时间:2020年12月31日23点59分59秒").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     }
 
