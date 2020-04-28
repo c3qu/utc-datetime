@@ -1,5 +1,3 @@
-// use std::time::SystemTime;
-// use std::error;
 use std::fmt;
 
 // 派生比较UTCDatetime的特性(=,>,<,<=,>=,!=)
@@ -32,7 +30,6 @@ pub enum IllegalTimeError{
 
 impl fmt::Debug for IllegalTimeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // write!(f, "Illegal time")
         match self{
             IllegalTimeError::YearNumberError=>write!(f, "Year Number Error"),
             IllegalTimeError::MonthNumberError=>write!(f, "Month Number Error"),
@@ -117,7 +114,7 @@ impl UTCDatetime{
     /// Convert a string containing time to UTCDatetime.
     /// 
     /// Time strings must be sorted by year, month, day, hour, minute, and second,
-    /// and Non-arabic numbers can be used as separators
+    /// and Non-arabic numbers can be used as separators.
     /// 
     /// Parsable string example:"2020-12-31 23:59:59","2020z12z31z23z59z59".
     /// # Example
@@ -145,6 +142,7 @@ impl UTCDatetime{
 
 
 fn is_leap_year(year:u16)->bool{
+    // 1.能被4整除,但不能被100整除 2能被400整除
     if (year%4==0 && year%100!=0)||year%400==0{
         return true
     }
