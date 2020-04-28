@@ -2,7 +2,7 @@
 // use std::error;
 use std::fmt;
 
-// 派生判断结构体比较的特性(=,>,<,<=,>=)
+// 派生比较UTCDatetime的特性(=,>,<,<=,>=,!=)
 #[derive(PartialEq,PartialOrd,Debug)]
 pub struct UTCDatetime{
     year:u16,
