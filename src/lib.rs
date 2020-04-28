@@ -20,8 +20,6 @@ impl fmt::Display for UTCDatetime{
     }
 }
 
-// 自定义一个错误类型
-// #[derive(Debug)]
 pub enum IllegalTimeError{
     YearNumberError,
     MonthNumberError,
@@ -48,7 +46,7 @@ impl fmt::Debug for IllegalTimeError {
 }
 
 impl UTCDatetime{
-    /// Create a new UTCDatetimr structure
+    /// Create a new UTCTimedate structure
     pub fn new(year:u16,month:u8,day:u8,hour:u8,minute:u8,second:u8)->Result<UTCDatetime, IllegalTimeError>{
         if month==0 || month >12{
             // println!("月份非法");
@@ -72,7 +70,6 @@ impl UTCDatetime{
         }
         Ok(UTCDatetime{year,month,day,hour,minute,second})
     }
-    // 返回utc时间的时间戳
     /// Returns the number of seconds since January 1, 1970
     pub fn get_timestamp(&self)->Result<u32,IllegalTimeError>{
         if self.year<1970{
@@ -108,11 +105,11 @@ impl UTCDatetime{
     /// Return today is the day of the week,Monday to Saturday Return 1 to 6,Sunday return 0
     pub fn day_of_the_week(&self)->u8{
         let ts=self.get_timestamp().unwrap();
-        //7*24*3600 为一周7天的秒数
+        //7*24*3600 为7天的秒数
         let this_week_seconds=ts%(7*24*3600);
         // 24*3600为一天的秒数
         let this_week_days=this_week_seconds/(24*3600);
-        // 1970年一月一日是周四
+        // 1970年1月1日是周四
         let week_number=(4+this_week_days)%7;
         week_number as u8
     }
@@ -131,6 +128,7 @@ impl UTCDatetime{
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
         let mut time_string_array:Vec<&str>=time_str.split(|x| (x as u8) < 48 || x as u8  >57).collect();
+        // retain non-empty items in time_string_array
         time_string_array.retain(|&x|x.len()!=0);
         if time_string_array.len()!=6{
             return Err(IllegalTimeError::TimeStringError)
@@ -181,5 +179,11 @@ mod tests{
         let a=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap(); 
         let b=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();   
         assert_eq!(a==b,true);
+    }
+
+    #[test]
+    fn test_week(){
+        let a=UTCDatetime::from_string("2020 4 28 12 12 12").unwrap();
+        assert_eq!(a.day_of_the_week(),2);
     }
 }
