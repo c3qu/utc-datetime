@@ -1,6 +1,6 @@
 [package]
 name = "utc-datetime"
-version = "0.1.12"
+version = "0.1.13"
 authors = ["tantalum73 <c3qu@qq.com>"]
 edition = "2018"
 license = "MIT"
