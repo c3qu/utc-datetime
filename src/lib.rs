@@ -77,9 +77,10 @@ impl UTCDatetime{
         let hour=self.hour as u32;
         let day =self.day as u32;
 
-        // 计算这个月的秒数
+        // 计算这个月时间的秒数
         let seconds_this_month=second+60*minute+60*60*hour+60*60*24*(day-1);
         
+        // 计算1970年到去年的秒数
         let mut seconds_past_years:u32=0;
         for i in 1970..self.year{
             if is_leap_year(i){
