@@ -120,9 +120,9 @@ impl UTCDatetime{
     /// Convert a string containing time to UTCDatetime.
     /// 
     /// Time strings must be sorted by year, month, day, hour, minute, and second,
-    /// and the separators can be '-', '/', ' ', and ':'.
+    /// and Non-arabic numbers can be used as separators
     /// 
-    /// Parsable string example:"2020-12-31 23:59:59","2020\12-31 23 59:59".
+    /// Parsable string example:"2020-12-31 23:59:59","2020z12z31z23z59z59".
     /// # Example
     /// ```
     /// use utc_datetime::UTCDatetime;
@@ -130,7 +130,7 @@ impl UTCDatetime{
     /// assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
-        let time_string_array:Vec<&str>=time_str.split(|x|(x=='-' || x==':' ||x==' '||x=='/')).collect();
+        let time_string_array:Vec<&str>=time_str.split(|x| (x as u8) < 48 || x as u8  >57).collect();
         if time_string_array.len()!=6{
             return Err(IllegalTimeError::TimeStringError)
         }   
@@ -171,7 +171,7 @@ mod tests{
     use super::UTCDatetime;
     #[test]
     fn mytest() {
-        let a_utc_datetime=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();
+        let a_utc_datetime=UTCDatetime::from_string("2020年12月31日23 59 59").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     }
 
@@ -179,6 +179,6 @@ mod tests{
     fn test2(){
         let a=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap(); 
         let b=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();   
-        assert_eq!(a<b,false);
+        assert_eq!(a==b,true);
     }
 }
