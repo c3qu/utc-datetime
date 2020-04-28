@@ -7,4 +7,5 @@ impl UTCDatetime{
     fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>;
 }
 ```
-The UTCDatetime structure derives PartialEq and PartialOrd, you can directly use <,>, ==, <=,> = for comparison.
+The UTCDatetime structure derives PartialEq and PartialOrd,
+you can directly use <,>, ==, <=,> = for comparison.

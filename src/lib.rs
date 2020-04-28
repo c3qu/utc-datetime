@@ -21,7 +21,7 @@ impl fmt::Display for UTCDatetime{
 }
 
 // 自定义一个错误类型
-#[derive(Debug, Clone)]
+// #[derive(Debug)]
 pub enum IllegalTimeError{
     YearNumberError,
     MonthNumberError,
@@ -32,7 +32,7 @@ pub enum IllegalTimeError{
     TimeStringError
 }
 
-impl fmt::Display for IllegalTimeError {
+impl fmt::Debug for IllegalTimeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // write!(f, "Illegal time")
         match self{
@@ -118,7 +118,10 @@ impl UTCDatetime{
     }
     // 输入一个时间字符串(如"2002-04-01 00:00:01") 返回一个时间对象
     /// Convert a string containing time to UTCDatetime.
-    /// Time strings must be sorted by year, month, day, hour, minute, and second,and the separators can be '-', '/', '', and ':'.
+    /// 
+    /// Time strings must be sorted by year, month, day, hour, minute, and second,
+    /// and the separators can be '-', '/', ' ', and ':'.
+    /// 
     /// Parsable string example:"2020-12-31 23:59:59","2020\12-31 23 59:59".
     /// # Example
     /// ```
@@ -175,7 +178,7 @@ mod tests{
         // println!("{}",a_time);
         // println!("{}",a_time.get_timestamp()?);
         // println!("{}",a_time.day_of_the_week());
-        let a_utc_datetime=UTCDatetime::from_string("2020/12-31 23 59:59").unwrap();
+        let a_utc_datetime=UTCDatetime::from_string("2020/12-31 23 59 59").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     }
 }
