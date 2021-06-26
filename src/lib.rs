@@ -45,11 +45,15 @@ impl fmt::Debug for IllegalTimeError {
 impl UTCDatetime{
     /// Create a new UTCTimedate structure
     pub fn new(year:u16,month:u8,day:u8,hour:u8,minute:u8,second:u8)->Result<UTCDatetime, IllegalTimeError>{
-        if month==0 || month >12{
+        if year<1970{
+            // println!("年份非法");
+            return Err(IllegalTimeError::YearNumberError)
+        }
+		if month==0 || month >12{
             // println!("月份非法");
             return Err(IllegalTimeError::MonthNumberError)
         }
-        if day==0 || day >31{
+        if day==0 || day >days_of_the_month(year,month){
             // println!("天数非法");
             return Err(IllegalTimeError::DayNumberError)
         }
@@ -125,6 +129,9 @@ impl UTCDatetime{
     /// assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
+		// 能转换的字符串的日期必须为阿拉伯数字，且顺序必须按照年,月,日,小时,分,秒的顺序
+		// 只保留字符串中的阿拉伯数字
+		// '0'-'9'的ascii码为48-57
         let mut time_string_array:Vec<&str>=time_str.split(|x| (x as u8) < 48 || x as u8  >57).collect();
         // retain non-empty items in time_string_array
         time_string_array.retain(|&x|x.len()!=0);
@@ -143,7 +150,9 @@ impl UTCDatetime{
 
 
 fn is_leap_year(year:u16)->bool{
-    // 1.能被4整除,但不能被100整除 2能被400整除
+	// 判断闰年的条件
+    // 1.能被4整除,但不能被100整除 
+	// 2.能被400整除
     if (year%4==0 && year%100!=0)||year%400==0{
         return true
     }
@@ -169,8 +178,8 @@ mod tests{
     use super::UTCDatetime;
     #[test]
     fn mytest() {
-        let a_utc_datetime=UTCDatetime::from_string("时间:2020年12月31日23点59分59秒").unwrap();
-        assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
+        let a_utc_datetime=UTCDatetime::from_string("时间:2021年2月28日23点59分0秒").unwrap();
+        assert_eq!(a_utc_datetime,UTCDatetime::new(2021,2,28,23,59,0).unwrap());
     }
 
     #[test]
