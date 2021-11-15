@@ -1,8 +1,8 @@
 [package]
 name = "utc-datetime"
-version = "0.1.15"
+version = "0.1.16"
 authors = ["tantalum73 <c3qu@qq.com>"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 description = "Return timestamp of UTC datetime,Convert time string to UTC datetime"
 readme = "README.md"
