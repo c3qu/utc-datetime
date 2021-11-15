@@ -1,3 +1,4 @@
+use core::panic;
 use std::fmt;
 
 // 派生比较UTCDatetime的特性(=,>,<,<=,>=,!=)
@@ -103,8 +104,14 @@ impl UTCDatetime{
         Ok(seconds_past_years+seconds_past_months+seconds_this_month)
     }
 
-    // 返回今天是星期几 星期一到六 返回1到6 星期天返回0
+    // 返回今天是星期几:星期一到星期六依次返回1到6，星期天返回0
     /// Return today is the day of the week,Monday to Saturday Return 1 to 6,Sunday return 0
+    /// # Example
+    /// ```
+    /// use utc_datetime::UTCDatetime;
+    /// let a_date=UTCDatetime::new(2021,11,15,0,0,0).unwrap();
+    /// assert_eq!(a_date.day_of_the_week(),1);
+    /// ```
     pub fn day_of_the_week(&self)->u8{
         let ts=self.get_timestamp().unwrap();
         //7*24*3600 为7天的秒数
@@ -125,8 +132,8 @@ impl UTCDatetime{
     /// # Example
     /// ```
     /// use utc_datetime::UTCDatetime;
-    /// let a_utc_datetime=UTCDatetime::from_string("时间:2020年12月31日23点59分59秒").unwrap();
-    /// assert_eq!(a_utc_datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
+    /// let datetime=UTCDatetime::from_string("时间:2020年12月31日23点59分59秒").unwrap();
+    /// assert_eq!(datetime,UTCDatetime::new(2020,12,31,23,59,59).unwrap());
     /// ```
     pub fn from_string(time_str:&str)->Result<UTCDatetime, IllegalTimeError>{
 		// 能转换的字符串的日期必须为阿拉伯数字，且顺序必须按照年,月,日,小时,分,秒的顺序
@@ -148,18 +155,31 @@ impl UTCDatetime{
     }
 }
 
-
-fn is_leap_year(year:u16)->bool{
+/// Conditions for judging leap years
+/// 1. Divisible by 4, but not divisible by 100
+/// 2. Divisible by 400
+/// # Example
+/// ```
+/// use utc_datetime::is_leap_year;
+/// assert_eq!(is_leap_year(2000),true);
+/// assert_eq!(is_leap_year(2021),false);
+/// assert_eq!(is_leap_year(1900),false);
+/// ```
+pub fn is_leap_year(year:u16)->bool{
 	// 判断闰年的条件
     // 1.能被4整除,但不能被100整除 
 	// 2.能被400整除
-    if (year%4==0 && year%100!=0)||year%400==0{
-        return true
-    }
-    false
+    (year%4==0 && year%100!=0)||year%400==0
+    
 }
-
-fn days_of_the_month(year:u16,month:u8)->u8{
+/// Returns the number of days in this month
+/// # Example
+/// ```
+/// use utc_datetime::days_of_the_month;
+/// assert_eq!(days_of_the_month(2020,2),29);
+/// assert_eq!(days_of_the_month(2020,3),31)
+/// ```
+pub fn days_of_the_month(year:u16,month:u8)->u8{
     match month{
         1|3|5|7|8|10|12=>31,
         4|6|9|11=>30,
@@ -169,7 +189,7 @@ fn days_of_the_month(year:u16,month:u8)->u8{
             }
             28
         }
-        _=>{0}
+        _=>panic!("Illegal number of days in the month.")
     }
 }
 

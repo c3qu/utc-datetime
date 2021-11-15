@@ -9,6 +9,3 @@ impl UTCDatetime{
 ```
 The UTCDatetime structure derives PartialEq and PartialOrd,
 you can directly use <,>, ==, <=,>=,!= for comparison.
-
-# Attention!
-**This library does not consider the time zone,Please convert local time to UTC time by yourself**

@@ -4,4 +4,4 @@ version = 3
 
 [[package]]
 name = "utc-datetime"
-version = "0.1.14"
+version = "0.1.15"
