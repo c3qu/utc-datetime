@@ -197,7 +197,7 @@ pub fn days_of_the_month(year:u16,month:u8)->u8{
 mod tests{
     use super::UTCDatetime;
     #[test]
-    fn mytest() {
+    fn test1() {
         let a_utc_datetime=UTCDatetime::from_string("时间:2021年2月28日23点59分0秒").unwrap();
         assert_eq!(a_utc_datetime,UTCDatetime::new(2021,2,28,23,59,0).unwrap());
     }
@@ -210,7 +210,7 @@ mod tests{
     }
 
     #[test]
-    fn test_week(){
+    fn test3(){
         let a=UTCDatetime::from_string("2020 4 28 12 12 12").unwrap();
         assert_eq!(a.day_of_the_week(),2);
     }
